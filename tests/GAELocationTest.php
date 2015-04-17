@@ -31,7 +31,7 @@ class GAELocationTest extends Illuminate\Foundation\Testing\TestCase {
 
     $testEnvironment = 'testing';
 
-    return require __DIR__.'/../../start.php';
+    return require __DIR__.'/../../bootstrap/start.php';
   }
 
   public function testObjects()
