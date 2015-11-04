@@ -1451,7 +1451,7 @@ class GAELocation
   // Modified version of the timezone list function from http://stackoverflow.com/a/17355238/507629
 // Includes current time for each timezone (would help users who don't know what their timezone is)
 
-  public static function generate_timezone_list()
+  public static function generate_timezone_list($with_current_time = false)
   {
     static $regions = [
       DateTimeZone::AFRICA,
@@ -1488,12 +1488,24 @@ class GAELocation
 
       $t = new DateTimeZone($timezone);
       $c = new DateTime(null, $t);
-      $current_time = $c->format('g:i A');
+      $current_time = $with_current_time ? "- ".$c->format('g:i A'):'';
 
-      $timezone_list[$timezone] = "(${pretty_offset}) $timezone - $current_time";
+      $timezone_list[$timezone] = "(${pretty_offset}) $timezone $current_time";
     }
 
     return $timezone_list;
+  }
+
+  public static function getOffset($timezone) {
+    $tz = new DateTimeZone($timezone);
+    $offset = $tz->getOffset(new DateTime);
+
+    $offset_prefix = $offset < 0 ? '-' : '+';
+    $offset_formatted = gmdate('H:i', abs($offset));
+
+    $pretty_offset = "UTC${offset_prefix}${offset_formatted}";
+
+    return $pretty_offset;
   }
 
   public static function generate_iso_country_list()
