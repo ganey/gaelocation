@@ -1,7 +1,6 @@
 <?php
 namespace Ganey\GAELocation;
 
-use Config;
 use DateTime;
 use DateTimeZone;
 
